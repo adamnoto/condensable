@@ -9,18 +9,15 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Adam Pahlevi"]
   spec.email         = ["adam.pahlevi@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = 'Think of it like a Hash, where you access and assign value using dot notation'
+  spec.description   = %q{Hash values are set/retrieved using a number, a string, symbol or other hashable object.
+                          If the value is almost always stored as a string/symbol,
+                          retrieving from hash is quite ambiguous because Ruby
+                          treat symbol and string differently, which is good.
+                          Blackhole creates an instance and allow you to define
+                          its accessors on the fly the first time they are used}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
-
-  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
-  # delete this section to allow pushing this gem to any host.
-  if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
-  end
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
