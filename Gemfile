@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in blackhole.gemspec
+# Specify your gem's dependencies in condensable.gemspec
 gemspec

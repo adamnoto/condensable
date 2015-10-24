@@ -1,23 +1,23 @@
 require 'spec_helper'
 
 class OrderParams
-  include Blackhole
+  include Condensable
 end
 
-describe Blackhole do
+describe Condensable do
   it 'has a version number' do
-    expect(Blackhole::VERSION).not_to be nil
+    expect(Condensable::VERSION).not_to be nil
   end
 
   let(:order_params) { OrderParams.new }
 
   describe OrderParams do
-    it "includes Blachole" do
-      OrderParams.include?(Blackhole)
+    it "includes Condensable" do
+      OrderParams.include?(Condensable)
     end
 
-    it "includes Blackhole::GravityAbsorber" do
-      OrderParams.include?(Blackhole::GravityAbsorber)
+    it "includes Condensable::GravityAbsorber" do
+      OrderParams.include?(Condensable::GravityAbsorber)
     end
 
     it "can make new variable on the fly" do
@@ -46,8 +46,8 @@ describe Blackhole do
     context "if set to returns a astring" do
       it "returns string" do
         class OrderParamsReturnStringC
-          include Blackhole
-          blackhole default: "adam"
+          include Condensable
+          condensable default: "adam"
         end
 
         op = OrderParamsReturnStringC.new
@@ -57,9 +57,9 @@ describe Blackhole do
 
     context "if set to execute method" do
       it "executes a method" do
-        class OrderParamsExecMethod 
-          include Blackhole
-          blackhole default: :execute_me
+        class OrderParamsExecMethod
+          include Condensable
+          condensable default: :execute_me
 
           def execute_me
             "adam pahlevi"
@@ -72,8 +72,8 @@ describe Blackhole do
 
       it "executes a method with params" do
         class OrderParamsExecMethodParams
-          include Blackhole
-          blackhole default: :execute_me
+          include Condensable
+          condensable default: :execute_me
 
           def execute_me(name, *args)
             [name] + args
@@ -90,8 +90,8 @@ describe Blackhole do
     context "if set to raise an error" do
       it "raises an error" do
         class OrderParamsRaiseError
-          include Blackhole
-          blackhole default: :raise_error
+          include Condensable
+          condensable default: :raise_error
         end
 
         opre = OrderParamsRaiseError.new

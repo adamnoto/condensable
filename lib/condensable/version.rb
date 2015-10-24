@@ -1,3 +1,3 @@
-module Blackhole
+module Condensable
   VERSION = "0.1.0"
 end

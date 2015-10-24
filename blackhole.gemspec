@@ -1,21 +1,20 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'blackhole/version'
+require 'condensable/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "blackhole"
-  spec.version       = Blackhole::VERSION
+  spec.name          = "condensable"
+  spec.version       = Condensable::VERSION
   spec.authors       = ["Adam Pahlevi"]
   spec.email         = ["adam.pahlevi@gmail.com"]
 
-  spec.summary       = 'Think of it like a Hash, where you access and assign value using dot notation'
+  spec.summary       = 'Think of it like a Hash, but instead, access and assign a value by using dot notation.'
   spec.description   = %q{Hash values are set/retrieved using a number, a string, symbol or other hashable object.
                           If the value is almost always stored as a string/symbol,
                           retrieving from hash is quite ambiguous because Ruby
                           treat symbol and string differently, which is good.
-                          Blackhole creates an instance and allow you to define
-                          its accessors on the fly the first time they are used}
+                          Condensable class allow creating accessor on demand.}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 

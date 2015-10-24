@@ -1,4 +1,4 @@
-module Blackhole
+module Condensable
   # handle when an instance variable is not defined, absorber will create one
   # on the fly
   module GravityAbsorber
@@ -23,12 +23,12 @@ module Blackhole
 
         send(method_name, *args)
       else
-        blackhole_missing_attribute(method_name, *args)
+        condensable_missing_attribute(method_name, *args)
       end
     end # method missing
 
-    def blackhole_missing_attribute(method_name, *args)
-      default_handle_arg = Blackhole::DEFAULT_VALUES[self.class.to_s]
+    def condensable_missing_attribute(method_name, *args)
+      default_handle_arg = Condensable::DEFAULT_VALUES[self.class.to_s]
 
       if default_handle_arg == :raise_error
         raise NoMethodError, "#{method_name} is undefined"
