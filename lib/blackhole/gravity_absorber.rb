@@ -2,6 +2,10 @@ module Blackhole
   # handle when an instance variable is not defined, absorber will create one
   # on the fly
   module GravityAbsorber
+    def included(base)
+      base.extend(GravityAbsorber::ClassLevelMethods)
+    end
+
     def method_missing(method_name, *args, &block)
       if method_name.to_s[-1] == '='
         # get proper attribute name, by removing "="
@@ -23,27 +27,21 @@ module Blackhole
       end
     end # method missing
 
-    # configuration block
-    def blackhole options
-      if options[:default]
-        blackhole_handle_default options[:default]
-      end
-    end
-
-    # what happen if method is missing?
-    def blackhole_handle_default arg
-      @blackhole_handle_default = arg
-    end
-
     def blackhole_missing_attribute(method_name, *args)
-      if @blackhole_handle_default == :raise_error
+      default_handle_arg = Blackhole::DEFAULT_VALUES[self.class.to_s]
+
+      if default_handle_arg == :raise_error
         raise NoMethodError, "#{method_name} is undefined"
-      elsif @blackhole_handle_default == nil
+      elsif default_handle_arg == nil
         return nil
-      elsif @blackhole_handle_default.is_a?(Symbol)
-        send(@blackhole_handle_default, *args)
-      elsif @blackhole_handle_default.is_a?(String)
-        return @blackhole_handle_default
+      elsif default_handle_arg.is_a?(Symbol)
+        if method(default_handle_arg).arity == 0
+          send(default_handle_arg)
+        else
+          send(default_handle_arg, method_name, *args)
+        end
+      elsif default_handle_arg.is_a?(String)
+        return default_handle_arg
       end
     end
   end
