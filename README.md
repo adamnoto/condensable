@@ -1,8 +1,12 @@
 # Condensable
+ba0907e0-5c16-0133-cf88-42612c8c8541
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/blackhole`. To experiment with that code, run `bin/console` for an interactive prompt.
+[ ![Codeship Status for saveav/condensable](https://codeship.com/projects/ba0907e0-5c16-0133-cf88-42612c8c8541/status?branch=release)](https://codeship.com/projects/110913)
 
-TODO: Delete this and the text above, and describe your gem
+In chemistry, condensation is the process of vapour or gas to become a liquid. But,
+this is no chemistry things. Here, condensable is describing a condition of a class
+that allow to make itself respond to getter and setter routines when they are not 
+(yet) defined.
 
 ## Installation
 
@@ -22,18 +26,60 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Simple enough, just include `Condensable` into your class and you are set.
 
-## Development
+```ruby
+class OrderParams
+  include Condensable
+end
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+And, you can use your condensable instance as follow:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+order = OrderParams.new
+order.order_id = 12
+order.customer = "Adam Pahlevi Baihaqi"
+```
 
-## Contributing
+Notice that both `order_id` and `customer` have not yet been defined, but a condensable
+class would automatically define that on-demand.
 
-1. Fork it ( https://github.com/[my-github-username]/condensable/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+### Specifying default condensation behaviour
+
+By default, when a getter is not available, a condensable instance will return nil:
+
+```ruby
+order.shipping_address == nil # true
+```
+
+To alter the default behaviour, specify `condensable default` in your class, like below:
+
+```ruby
+class OrderParams
+  include Condensable
+
+  condensable default: "not-available"
+end
+```
+
+Therefore, when invoked:
+
+```
+order.shipping_address
+```
+
+It will returns `not-available`.
+
+There are 4 condensation behaviours:
+
+1. Returning nil (`condensable default: nil`)
+2. Returning string (`condensable default: "some string"`)
+3. Executing a method, by always passing a symbol (`condensable default: :execute_method`)
+4. Raising an error (`condensable default: :raise_error`)
+
+For more details, please see the spec which demonstrates the all four.
+
+## License
+
+The gem is proudly available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
