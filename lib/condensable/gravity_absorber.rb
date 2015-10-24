@@ -10,18 +10,30 @@ module Condensable
       if method_name.to_s[-1] == '='
         # get proper attribute name, by removing "="
         attribute_name = method_name[0..-2]
-        instance_eval do
-          eval %Q{
-            def #{attribute_name}=(arg)
-              @#{attribute_name} = arg
-            end
-            def #{attribute_name}
-              @#{attribute_name}
-            end
-          }
-        end # instance eval
+        setter_name = "#{attribute_name}="
+        getter_name = attribute_name
 
-        send(method_name, *args)
+        unless respond_to?(setter_name)
+          instance_eval do
+            eval %Q{
+              def #{attribute_name}=(arg)
+                @#{attribute_name} = arg
+              end
+            }
+          end
+        end
+
+        unless respond_to?(getter_name)
+          instance_eval do
+            eval %Q{
+              def #{attribute_name}
+                @#{attribute_name}
+              end
+            }
+          end # instance eval
+        end
+
+        send(setter_name, *args)
       else
         condensable_missing_attribute(method_name, *args)
       end
