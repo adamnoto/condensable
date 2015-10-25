@@ -21,6 +21,15 @@ module Condensable
     def keys
       condensed_variables
     end
+
+    # all condensed variables' value
+    def values
+      values = []
+      condensed_variables.each do |var|
+        values << send(var)
+      end
+      values
+    end
     def method_missing(method_name, *args, &block)
       if method_name.to_s[-1] == '='
         # get proper attribute name, by removing "="
