@@ -30,6 +30,14 @@ module Condensable
       end
       values
     end
+
+    # iterating all condensed variables and its value
+    def each
+      condensed_variables.each do |var|
+        yield var, send(var)
+      end
+    end
+
     def method_missing(method_name, *args, &block)
       if method_name.to_s[-1] == '='
         # get proper attribute name, by removing "="
