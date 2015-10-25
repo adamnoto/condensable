@@ -40,6 +40,7 @@ module Condensable
 
     def method_missing(method_name, *args, &block)
       if method_name.to_s[-1] == '='
+        @condensed_variables = [] if @condensed_variables.nil?
         # get proper attribute name, by removing "="
         attribute_name = method_name[0..-2]
         setter_name = "#{attribute_name}="
@@ -63,6 +64,7 @@ module Condensable
               end
             }
           end # instance eval
+          @condensed_variables << getter_name.to_sym
         end
 
         send(setter_name, *args)
