@@ -28,6 +28,40 @@ describe Condensable do
       expect(order_params.order_id).to eq(1)
     end
 
+    context "with condensed values" do
+      before do
+        order_params.order_id = "ABC-1234"
+        order_params.delivery = "Jl HR. Rasuna Said 23"
+        order_params.name = "Adam Pahlevi"
+        order_params.city = "Jakarta"
+      end
+
+      it "can respond to keys and return all condensed keys" do
+        expect(order_params.keys).to eq([:order_id, :delivery, :name, :city])
+      end
+
+      it "can respond to values and return all condensed values" do
+        expect(order_params.values).to eq(["ABC-1234", "Jl HR. Rasuna Said 23", "Adam Pahlevi", "Jakarta"])
+      end
+
+      it "can respond to each" do
+        expect(order_params.respond_to?(:each)).to be_truthy
+        each_vars = {}
+        order_params.each do |key, value|
+          each_vars[key] = value
+        end
+        expect(each_vars).to eq({:order_id=>"ABC-1234", :delivery=>"Jl HR. Rasuna Said 23", :name=>"Adam Pahlevi", :city=>"Jakarta"})
+      end
+
+      it "can tell whether a variable is a result of condensation or not" do
+        expect(order_params.is_condensed?(:order_id)).to be_truthy
+        expect(order_params.is_condensed?(:name)).to be_truthy
+        expect(order_params.is_condensed?(:delivery)).to be_truthy
+        expect(order_params.is_condensed?(:city)).to be_truthy
+        expect(order_params.is_condensed?(:address)).to be_falsey
+      end
+    end
+
     it "can re-assign variable value" do
       order_params.order_id = 1
       expect(order_params.order_id).to eq(1)
