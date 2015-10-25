@@ -89,6 +89,6 @@ module Condensable
       elsif default_handle_arg.is_a?(String)
         return default_handle_arg
       end
-    end
-  end
-end
+    end # condensable missing attribute
+  end # gravity absorber
+end # condensable
