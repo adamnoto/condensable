@@ -17,13 +17,8 @@ module Condensable
       @condensed_variables.include?(variable_name.to_sym)
     end
 
-    # all condensed variables' name
-    def keys
-      condensed_variables
-    end
-
     # all condensed variables' value
-    def values
+    def condensed_values
       values = []
       condensed_variables.each do |var|
         values << send(var)

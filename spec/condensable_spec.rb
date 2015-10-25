@@ -37,11 +37,11 @@ describe Condensable do
       end
 
       it "can respond to keys and return all condensed keys" do
-        expect(order_params.keys).to eq([:order_id, :delivery, :name, :city])
+        expect(order_params.condensed_variables).to eq([:order_id, :delivery, :name, :city])
       end
 
       it "can respond to values and return all condensed values" do
-        expect(order_params.values).to eq(["ABC-1234", "Jl HR. Rasuna Said 23", "Adam Pahlevi", "Jakarta"])
+        expect(order_params.condensed_values).to eq(["ABC-1234", "Jl HR. Rasuna Said 23", "Adam Pahlevi", "Jakarta"])
       end
 
       it "can respond to each" do
