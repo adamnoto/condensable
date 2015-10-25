@@ -16,6 +16,11 @@ module Condensable
     def is_condensed?(variable_name)
       @condensed_variables.include?(variable_name.to_sym)
     end
+
+    # all condensed variables' name
+    def keys
+      condensed_variables
+    end
     def method_missing(method_name, *args, &block)
       if method_name.to_s[-1] == '='
         # get proper attribute name, by removing "="
