@@ -134,57 +134,53 @@ describe Condensable do
 
     context "if set to returns a astring" do
       it "returns string" do
-        class OrderParamsReturnStringC
+        order_params = Class.new do
           include Condensable
-          condensable default: "adam"
-        end
+          condensable default: 'adam'
+        end.new
 
-        op = OrderParamsReturnStringC.new
-        expect(op.name).to eq("adam")
+        expect(order_params.name).to eq("adam")
       end
     end
 
     context "if set to execute method" do
       it "executes a method" do
-        class OrderParamsExecMethod
+        order_params = Class.new do
           include Condensable
           condensable default: :execute_me
 
           def execute_me
             "adam pahlevi"
           end
-        end
+        end.new
 
-        opem = OrderParamsExecMethod.new
-        expect(opem.name).to eq("adam pahlevi")
+        expect(order_params.name).to eq("adam pahlevi")
       end
 
       it "executes a method with params" do
-        class OrderParamsExecMethodParams
+        order_params = Class.new do
           include Condensable
           condensable default: :execute_me
 
           def execute_me(name, *args)
             [name] + args
           end
-        end
+        end.new
 
-        opemp = OrderParamsExecMethodParams.new
-        expect(opemp.name("adam")).to eq([:name, "adam"])
-        expect(opemp.age).to eq([:age])
-        expect(opemp.whatever("adam", "pahlevi")).to eq([:whatever, "adam", "pahlevi"])
+        expect(order_params.name("adam")).to eq([:name, "adam"])
+        expect(order_params.age).to eq([:age])
+        expect(order_params.whatever("adam", "pahlevi")).to eq([:whatever, "adam", "pahlevi"])
       end
     end
 
     context "if set to raise an error" do
       it "raises an error" do
-        class OrderParamsRaiseError
+        order_params = Class.new do
           include Condensable
           condensable default: :raise_error
-        end
+        end.new
 
-        opre = OrderParamsRaiseError.new
-        expect { opre.name }.to raise_error(NoMethodError)
+        expect { order_params.name }.to raise_error(NoMethodError)
       end
     end
   end
