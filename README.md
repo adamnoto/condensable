@@ -46,6 +46,33 @@ order.customer = "Adam Pahlevi Baihaqi"
 Notice that both `order_id` and `customer` have not yet been defined, but a condensable
 class would automatically define that on-demand.
 
+### Creating on-the-fly condensable class
+
+You don't need to define a class, you can generate them on-demand:
+
+```ruby
+order = Condensable.new.new
+order.order_id = 123
+```
+
+First `.new` will create a class on-the-fly for you. The second `.new` actually initialize the class.
+
+You can also pass in block, and define what a usual class could be defined:
+
+```ruby
+order = Condensable.new do
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+end.new
+
+order.first_name = 'Adam'
+order.last_name = 'Pahlevi'
+order.full_name == 'Adam Pahlevi' # true
+```
+
+For more, please have a look at our spec to demonstrate its power.
+
 ### Specifying default condensation behaviour
 
 By default, when a getter is not available, a condensable instance will return nil:
