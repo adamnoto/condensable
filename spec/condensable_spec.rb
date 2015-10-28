@@ -70,6 +70,61 @@ describe Condensable do
     end
   end
 
+  context "create on-the-fly condensable class" do
+    it "can behave normally" do
+      condensable_my_data = Condensable.new
+      my_data = condensable_my_data.new
+
+      expect(my_data.name).to be_nil
+      expect(my_data.respond_to?(:name)).to be_falsey
+      my_data.name = 'Adam Pahlevi'
+      expect(my_data.name).to eq('Adam Pahlevi')
+      expect(my_data.respond_to?(:name)).to be_truthy
+    end
+
+    it 'can accept block and define with ruby normal class DSL' do
+      my_data = Condensable.new do
+        def full_name
+          "#{first_name} #{last_name}"
+        end
+      end.new
+
+      expect(my_data.full_name).to eq(' ')
+      my_data.first_name = 'Adam'
+      my_data.last_name = 'Pahlevi'
+      expect(my_data.full_name).to eq('Adam Pahlevi')
+    end
+
+    context 'with default options' do
+      it 'can return default string' do
+        # creating an on-the-fly class, and initialize that class
+        my_data = Condensable.new(default: 'not-available').new
+        expect(my_data.order_id).to eq('not-available')
+      end
+
+      it 'can return nil' do
+        my_data = Condensable.new(default: nil).new
+        expect(my_data.order_id).to be_nil
+      end
+
+      it 'can by default raise error' do
+        my_data = Condensable.new(default: :raise_error)
+        expect { my_data.launch_rocket }.to raise_error(NoMethodError)
+      end
+
+      it 'can execute method' do
+        my_data = Condensable.new(default: :execute_method) do
+          def execute_method
+            "HI THERE"
+          end
+        end.new
+
+        expect(my_data.hi_in_english).to eq('HI THERE')
+        expect(my_data.hi_in_american).to eq('HI THERE')
+      end
+    end
+  end
+
   context "with default behaviour" do
     context "if unspecified" do
       it "returns nil" do
